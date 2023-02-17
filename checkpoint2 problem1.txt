@@ -1,0 +1,61 @@
+FUNCTION size() : INTEGER;
+VAR
+    n :INTEGER:=0,
+BEGIN
+    REPEAT
+        read(n);
+    UNTIL (n>0 and n<100)
+    RETURN n;
+END
+PROCEDURE fillarr(n:INTEGER, var arr : ARRAY_OF INTEGER;)
+VAR
+    i :INTEGER;
+BEGIN
+    FOR i FROM 1 TO n-1 STEP 1 DO
+        read(arr[i]);
+    END_FOR
+END
+PROCEDURE search(arrA,arrB :ARRAY_OF INTEGER , nA,nB, :INTEGER ,VAR arrc :STRING[],VAR k ,VAR sum:INTEGER) 
+VAR
+    s,i,j:INTEGER:=0;
+    exist:BOOLEAN:=false;
+BEGIN
+    FOR i FROM 0 TO nA-1 STEP 1  DO
+        exist :=false;
+        FOR j FROM 0 TO nB-1 STEP 1  DO
+            if (arrA[i]=arrB[j] ) THEN
+                exist:=True ;
+        END_FOR
+        IF (not(exist)) THEN
+            arrc[k]:=arrA[i];
+            arrc[k+1]:=",";
+            k:=k+2;
+            sum:=sum+ arrA[i];
+        END_IF
+    END_FOR
+END
+FUNCTION dellastcomma(str:STRING ,k :INTEGER) :STRING;
+VAR
+    s:INTEGER:=0;
+    strA:STRING;
+BEGIN
+    FOR z FROM 0 TO k-2 STEP 1  DO
+        strA:=strA+strA[k];
+    END_FOR
+    RETURN strA ;
+END
+ALGORITHM addition
+VAR
+    sum,nA , nB ,nc :INTEGER :=0;
+    arrA , arrB  : ARRAY_OF INTEGER[100];
+    arrc :STRING ;
+BEGIN
+    nA:=size();
+    nB:=size();
+    fillarr(nA,arrA);
+    fillarr(nB,arrB);
+    search(arrA ,arrB,nA,nB ,arrc ,nc,sum); 
+    search(arrB ,arrA,nB,nA ,arrc ,nc,sum);
+    sum:=addsum(arrc,nc);
+    write(sum," (distinct elements are",dellastcomma(arrc,nc),")");
+END
